@@ -1,11 +1,16 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/login/Login';
+import AuthHandler from './pages/AuthHandler';
 
-import './App.scss'
-
-function App() {
-
+const App = () => {
   return (
-   <div></div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<AuthHandler />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
