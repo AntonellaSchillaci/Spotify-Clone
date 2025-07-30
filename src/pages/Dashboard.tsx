@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserProfile, getUserPlaylists } from "../services/spotify";
+import PlaylistDetails from "../components/PlaylistDetails/PlaylistDetails";
 
 interface SpotifyImage {
   url: string;
@@ -11,47 +12,36 @@ interface UserProfile {
   display_name: string;
   email: string;
   product: string;
-  images?: SpotifyImage[];
+  images: SpotifyImage[];
 }
 
 interface Playlist {
   id: string;
   name: string;
   images: SpotifyImage[];
-  tracks: {
-    total: number;
-  };
 }
 
 const Dashboard = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const token = localStorage.getItem("spotify_access_token");
 
   useEffect(() => {
-    const token = localStorage.getItem("spotify_access_token");
     if (!token) {
       setError("Nessun token trovato");
       return;
     }
+
     getUserProfile(token)
-      .then((data) => {
-        setUser(data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Errore nel recupero profilo");
-      });
+      .then((data) => setUser(data))
+      .catch(() => setError("Errore nel recupero profilo"));
 
     getUserPlaylists(token)
-      .then((data) => {
-        setPlaylists(data.items);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Errore nel recupero delle playlist");
-      });
-  }, []);
+      .then((data) => setPlaylists(data.items))
+      .catch(() => setError("Errore nel recupero playlist"));
+  }, [token]);
 
   if (error) return <div>{error}</div>;
   if (!user) return <div>Caricamento profilo...</div>;
@@ -61,22 +51,25 @@ const Dashboard = () => {
       <h2>Benvenuto, {user.display_name}!</h2>
       <p>Email: {user.email}</p>
       <p>Tipo account: {user.product}</p>
-      {user.images && user.images.length > 0 && (
-        <img src={user.images[0].url} alt="Profilo" width={100} />
+      {user.images?.length > 0 && (
+        <img src={user.images[0].url} alt="Profilo" />
       )}
 
-      <h3>🎵 Le tue Playlist</h3>
-      <div className="playlists" >
-        {playlists.map((playlist) => (
-          <div key={playlist.id} className="playlist" >
-            {playlist.images[0] && (
-              <img src={playlist.images[0].url} alt={playlist.name} />
-            )}
-            <p><strong>{playlist.name}</strong></p>
-            <p>{playlist.tracks.total} brani</p>
-          </div>
+      <h2>Playlist</h2>
+      <ul>
+        {playlists.map((pl) => (
+          <li key={pl.id} onClick={() => setSelectedPlaylistId(pl.id)}>
+            {pl.images?.[0]?.url && (
+              <img src={pl.images[0].url} alt={pl.name} />
+            )}{" "}
+            {pl.name}
+          </li>
         ))}
-      </div>
+      </ul>
+
+      {selectedPlaylistId && token && (
+        <PlaylistDetails playlistId={selectedPlaylistId} token={token} />
+      )}
     </div>
   );
 };

@@ -27,3 +27,10 @@ export const getUserProfile = async (token: string) => {
     return res.json();
   }
   
+  export const getPlaylistTracks = async (playlistId: string, token: string) => {
+    const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error('Errore nel recupero tracce playlist');
+    return res.json(); 
+  };
