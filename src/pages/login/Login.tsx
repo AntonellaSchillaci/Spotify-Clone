@@ -9,11 +9,14 @@ const scopes = [
 ];
 
 const Login = () => {
+  console.log("Client ID:", clientId);
+  console.log("Redirect URI:", redirectUri);
+
     const loginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&redirect_uri=${encodeURIComponent(
         redirectUri
     )}&scope=${encodeURIComponent(scopes.join(' '))}`;
       
-
+    console.log("login URL:", loginUrl);
   return (
     <div className="login">
       <h1>🎵 Spotify Clone</h1>
