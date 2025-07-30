@@ -34,3 +34,23 @@ export const getUserProfile = async (token: string) => {
     if (!res.ok) throw new Error('Errore nel recupero tracce playlist');
     return res.json(); 
   };
+
+  export const playPlaylist = async (playlistId: string, token: string) => {
+    const res = await fetch('https://api.spotify.com/v1/me/player/play', {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        context_uri: `spotify:playlist:${playlistId}`,
+      }),
+    });
+  
+    if (!res.ok) {
+      throw new Error('Errore durante l\'avvio della riproduzione');
+    }
+  
+    return res.json();
+  };
+  
