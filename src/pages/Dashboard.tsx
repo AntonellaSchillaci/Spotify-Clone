@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { getUserProfile, getUserPlaylists } from "../services/spotify";
+import { getUserProfile, getUserPlaylists, playPlaylist } from "../services/spotify";
 import PlaylistDetails from "../components/PlaylistDetails/PlaylistDetails";
+
+import "./Dashboard.scss";
 
 interface SpotifyImage {
   url: string;
@@ -19,6 +21,9 @@ interface Playlist {
   id: string;
   name: string;
   images: SpotifyImage[];
+  owner: {
+    display_name: string;
+  };
 }
 
 const Dashboard = () => {
@@ -52,26 +57,51 @@ const Dashboard = () => {
       <p>Email: {user.email}</p>
       <p>Tipo account: {user.product}</p>
       {user.images?.length > 0 && (
-        <img src={user.images[0].url} alt="Profilo" />
+        <img className="profile-image" src={user.images[0].url} alt="Profilo" />
       )}
-
+  
       <h2>Playlist</h2>
-      <ul>
+      <div className="playlists">
         {playlists.map((pl) => (
-          <li key={pl.id} onClick={() => setSelectedPlaylistId(pl.id)}>
-            {pl.images?.[0]?.url && (
-              <img src={pl.images[0].url} alt={pl.name} />
-            )}{" "}
-            {pl.name}
-          </li>
+          <div
+            key={pl.id}
+            className="playlist-card"
+            onClick={() => setSelectedPlaylistId(pl.id)}
+          >
+            <div className="cover">
+              {pl.images?.[0]?.url && (
+                <img src={pl.images[0].url} alt={pl.name} />
+              )}
+            </div>
+            <div className="playlist-info">
+              <div className="title">{pl.name}</div>
+              <div className="owner">{pl.owner.display_name}</div>
+            </div>
+            <button
+              className="play-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (token) {
+                  playPlaylist(pl.id, token);
+                } else {
+                  console.error("Token non disponibile");
+                }
+              }}
+              aria-label={`Play playlist ${pl.name}`}
+            >
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <polygon points="5,3 19,12 5,21"></polygon>
+              </svg>
+            </button>
+          </div>
         ))}
-      </ul>
-
+      </div>
+  
       {selectedPlaylistId && token && (
         <PlaylistDetails playlistId={selectedPlaylistId} token={token} />
       )}
     </div>
   );
-};
+}
 
 export default Dashboard;
