@@ -4,6 +4,8 @@ import AuthHandler from './pages/AuthHandler';
 import Callback from './pages/Callback';
 import Dashboard from './pages/Dashboard';
 
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 const App = () => {
   return (
     <Router>
