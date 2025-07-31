@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getUserProfile, getUserPlaylists, playPlaylist } from "../services/spotify";
+import { getUserProfile, getUserPlaylists } from "../services/spotify";
 import PlaylistDetails from "../components/PlaylistDetails/PlaylistDetails";
+import Navbar from "../components/Navbar/Navbar";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 import "./Dashboard.scss";
-import Navbar from "../components/Navbar/Navbar";
 
 interface SpotifyImage {
   url: string;
@@ -54,50 +55,17 @@ const Dashboard = () => {
 
   return (
     <>
-    {user && <Navbar user={user} />}
-    <div className="dashboard">
-      <h2>Playlist</h2>
-      <div className="playlists">
-        {playlists.map((pl) => (
-          <div
-            key={pl.id}
-            className="playlist-card"
-            onClick={() => setSelectedPlaylistId(pl.id)}
-          >
-            <div className="cover">
-              {pl.images?.[0]?.url && (
-                <img src={pl.images[0].url} alt={pl.name} />
-              )}
-            </div>
-            <div className="playlist-info">
-              <div className="title">{pl.name}</div>
-              <div className="owner">{pl.owner.display_name}</div>
-            </div>
-            <button
-              className="play-button"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (token) {
-                  playPlaylist(pl.id, token);
-                } else {
-                  console.error("Token non disponibile");
-                }
-              } }
-              aria-label={`Play playlist ${pl.name}`}
-            >
-              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                <polygon points="5,3 19,12 5,21"></polygon>
-              </svg>
-            </button>
-          </div>
-        ))}
+      {user && <Navbar user={user} />}
+      <div className="dashboard">
+        <Sidebar playlists={playlists} onSelect={setSelectedPlaylistId} />
+        <main className="main-content">
+          {selectedPlaylistId && token && (
+            <PlaylistDetails playlistId={selectedPlaylistId} token={token} />
+          )}
+        </main>
       </div>
-
-      {selectedPlaylistId && token && (
-        <PlaylistDetails playlistId={selectedPlaylistId} token={token} />
-      )}
-    </div></>
+    </>
   );
-}
+};
 
 export default Dashboard;

@@ -1,0 +1,107 @@
+@use '../../styles/variables' as *;
+
+.sidebar {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    height: calc(100vh - 60px);
+    background-color: $side-bd;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    z-index: 999;
+    padding-top: 20px;
+    margin-left: 10px;
+    border-radius: $border-radius;
+
+  
+    &.expanded {
+      width: 240px;
+    }
+  
+    &.collapsed {
+      width: 80px;
+  
+      .playlist-name {
+        display: none;
+      }
+    }
+  
+    .sidebar-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      gap: 10px;
+      margin-bottom: 20px;
+
+      .toggle-btn{
+        margin-left: 15px;
+      }
+  
+      .toggle-btn{
+        background: none;
+        border: none;
+        color: $text-secondary;
+        font-size: 1.2rem;
+        margin-left: 10px;
+        cursor: pointer;
+        margin-left: 25px;
+      }
+      .add-btn {
+        background: none;
+        border: none;
+        color: $text-secondary;
+        font-size: 1.2rem;
+        margin-left: 15px;
+        cursor: pointer;
+
+        .plus {
+            background-color: $card-bg;
+            padding: 8px 8px;
+            border-radius: 80%;
+            margin-top: 5px;
+
+            &:hover {
+                background-color: $hover-bg;
+                transform: scale(1.05);
+              }
+        }
+  
+        
+      }
+    }
+  
+    .playlist-list {
+      list-style: none;
+      padding: 0;
+  
+      .playlist-item {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background 0.2s;
+        margin-left: 8px;
+  
+        &:hover {
+          background-color: #282828;
+        }
+  
+        .playlist-cover {
+          width: 48px;
+          height: 48px;
+          object-fit: cover;
+          border-radius: 4px;
+        }
+  
+        .playlist-name {
+          font-size: 0.9rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+  
