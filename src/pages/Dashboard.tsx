@@ -3,6 +3,7 @@ import { getUserProfile, getUserPlaylists, playPlaylist } from "../services/spot
 import PlaylistDetails from "../components/PlaylistDetails/PlaylistDetails";
 
 import "./Dashboard.scss";
+import Navbar from "../components/Navbar/Navbar";
 
 interface SpotifyImage {
   url: string;
@@ -52,14 +53,9 @@ const Dashboard = () => {
   if (!user) return <div>Caricamento profilo...</div>;
 
   return (
+    <>
+    {user && <Navbar user={user} />}
     <div className="dashboard">
-      <h2>Benvenuto, {user.display_name}!</h2>
-      <p>Email: {user.email}</p>
-      <p>Tipo account: {user.product}</p>
-      {user.images?.length > 0 && (
-        <img className="profile-image" src={user.images[0].url} alt="Profilo" />
-      )}
-  
       <h2>Playlist</h2>
       <div className="playlists">
         {playlists.map((pl) => (
@@ -86,7 +82,7 @@ const Dashboard = () => {
                 } else {
                   console.error("Token non disponibile");
                 }
-              }}
+              } }
               aria-label={`Play playlist ${pl.name}`}
             >
               <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -96,11 +92,11 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-  
+
       {selectedPlaylistId && token && (
         <PlaylistDetails playlistId={selectedPlaylistId} token={token} />
       )}
-    </div>
+    </div></>
   );
 }
 

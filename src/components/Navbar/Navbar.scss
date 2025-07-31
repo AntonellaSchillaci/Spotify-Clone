@@ -1,0 +1,76 @@
+@use '../../styles/variables' as *;
+
+.my-nav {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px 0 40px;
+
+    .icon-home{
+        font-size: 25px;
+        color: $text-color;
+        padding: 12px 9px;
+        background-color:$card-bg ;
+        border-radius: 100%;
+        border: 0.5px solid $card-bg;
+        margin: 10px 0 10px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        
+
+        &:hover {
+            background-color: $hover-bg;
+            transform: scale(1.02); 
+        }
+
+        &.input {
+            color: $text-secondary;
+           &:hover {
+            border: 0.5px solid $text-secondary;
+           }
+        }
+    }
+
+    .icon {
+        color: $text-secondary;
+        font-size: 25px;
+        margin-right: 5px;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $text-color;
+            cursor: pointer;
+            
+        }
+    }
+
+    .icon-container-2 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        
+        .icon {
+            color: $text-secondary;
+            font-size: 18px;
+            cursor: pointer;
+
+            &:hover {
+                color: $text-color;
+                transform: scale(1.02); 
+            }
+        }
+
+        .profile-img {
+            max-width: 35px;
+            border-radius: 100%;
+            padding: 7px;
+            background-color: $card-bg;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.03); 
+            }
+        }
+    }
+
+   
+}
