@@ -1,76 +1,166 @@
 @use '../../styles/variables' as *;
 
 .my-nav {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 10px 0 40px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 10px 0 30px;
 
-    .icon-home{
-        font-size: 25px;
-        color: $text-color;
-        padding: 12px 9px;
-        background-color:$card-bg ;
-        border-radius: 100%;
-        border: 0.5px solid $card-bg;
-        margin: 10px 0 10px 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        
+  .icon-home {
+    font-size: 25px;
+    color: $text-color;
+    padding: 12px 9px;
+    background-color: $card-bg;
+    border-radius: 100%;
+    border: 0.5px solid $card-bg;
+    margin: 10px 0 10px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 
-        &:hover {
-            background-color: $hover-bg;
-            transform: scale(1.02); 
-        }
-
-        &.input {
-            color: $text-secondary;
-           &:hover {
-            border: 0.5px solid $text-secondary;
-           }
-        }
+    &:hover {
+      background-color: $hover-bg;
+      transform: scale(1.02);
     }
 
+    &.input {
+      color: $text-secondary;
+
+      &:hover {
+        border: 0.5px solid $text-secondary;
+      }
+    }
+  }
+
+  .icon {
+    color: $text-secondary;
+    font-size: 25px;
+    margin-right: 5px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $text-color;
+      cursor: pointer;
+    }
+  }
+
+  .icon-container-1 {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon-container-2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
     .icon {
+      color: $text-secondary;
+      font-size: 18px;
+      cursor: pointer;
+
+      &:hover {
+        color: $text-color;
+        transform: scale(1.02);
+      }
+    }
+
+    .profile-img {
+      max-width: 35px;
+      border-radius: 100%;
+      padding: 7px;
+      background-color: $card-bg;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+  }
+
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      color: $text-secondary;
+      cursor: pointer;
+      z-index: 2;
+      margin: -5px;
+
+      &:hover {
+        color: $text-color;
+      }
+
+      &.active {
+        background-color: transparent;
+        border: none;
+      }
+    }
+
+    .search-input {
+      padding: 15px 250px 15px 46px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: 1.5px solid $text-color;
+      outline: none;
+      background-color: $card-bg;
+      color: $text-color;
+      margin-left: 10px;
+      width: 0;
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: 
+        width 0.3s ease,
+        opacity 0.3s ease,
+        transform 0.3s ease;
+
+      &::placeholder {
         color: $text-secondary;
-        font-size: 25px;
-        margin-right: 5px;
+      }
+
+      &.visible {
+        width: 180px;
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    .search-addon {
+      position: absolute;
+      right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 100%;
+      z-index: 2;
+
+      .divider {
+        width: 1px;
+        height: 60%;
+        background-color: $text-secondary;
+      }
+
+      .archive-icon {
+        font-size: 20px;
+        color: $text-secondary;
+        cursor: pointer;
         transition: color 0.3s ease;
 
         &:hover {
-            color: $text-color;
-            cursor: pointer;
-            
+          color: $text-color;
         }
+      }
     }
-
-    .icon-container-2 {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        
-        .icon {
-            color: $text-secondary;
-            font-size: 18px;
-            cursor: pointer;
-
-            &:hover {
-                color: $text-color;
-                transform: scale(1.02); 
-            }
-        }
-
-        .profile-img {
-            max-width: 35px;
-            border-radius: 100%;
-            padding: 7px;
-            background-color: $card-bg;
-            cursor: pointer;
-
-            &:hover {
-                transform: scale(1.03); 
-            }
-        }
-    }
-
-   
+  }
 }
+
+// Media query 
+@media (max-width: 836px) {
+  .my-nav.search-active .icon-container-2 .icon {
+    display: none;
+  }
+}
+
